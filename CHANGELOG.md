@@ -2,6 +2,8 @@
 
 ## To Be Released
 
+* feat(apps): add plain output format and `--plain` flag to list application names
+
 ## 1.51.1
 
 * chore(go): update Go to 1.27.3

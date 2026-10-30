@@ -12,6 +12,7 @@ import (
 	"github.com/Scalingo/cli/detect"
 	"github.com/Scalingo/cli/internal/boundaries/out/renderer"
 	rendererjson "github.com/Scalingo/cli/internal/boundaries/out/renderer/json"
+	rendererplain "github.com/Scalingo/cli/internal/boundaries/out/renderer/plain"
 	renderertable "github.com/Scalingo/cli/internal/boundaries/out/renderer/table"
 	"github.com/Scalingo/cli/io"
 	"github.com/Scalingo/cli/utils"
@@ -26,11 +27,15 @@ var (
 		Description: "List your apps and give some details about them",
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: "project", Usage: "Filter apps by project. The filter uses the format <ownerUsername>/<projectName>"},
+			&cli.BoolFlag{Name: "plain", Usage: "List only application names, one per line"},
 		},
 		Usage: "List your apps",
 		Action: func(ctx context.Context, c *cli.Command) error {
 			projectSlug := c.String("project")
 			format := renderer.Format(c.String("format"))
+			if c.Bool("plain") {
+				format = renderer.FormatPlain
+			}
 
 			if projectSlug != "" {
 				projectSlugSplit := strings.Split(projectSlug, "/")
@@ -50,6 +55,8 @@ var (
 				appsRenderer = renderertable.NewAppsList(currentUser)
 			case renderer.FormatJSON:
 				appsRenderer = rendererjson.NewAppsList()
+			case renderer.FormatPlain:
+				appsRenderer = rendererplain.NewAppsList()
 			default:
 				errorQuitWithHelpMessage(ctx, errors.Newf(ctx, "invalid format '%v'", format), c, "apps")
 			}

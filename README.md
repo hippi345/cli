@@ -247,7 +247,7 @@ COMMANDS:
 GLOBAL OPTIONS:
    --addon string              ID of the current addon (default: "<addon_id>") [$SCALINGO_ADDON]
    --app string, -a string     Name of the app (default: "<name>") [$SCALINGO_APP]
-   --format string             [json|table] (default: "table")
+   --format string             [json|plain|table] (default: "table")
    --remote string, -r string  Name of the remote (default: "scalingo")
    --region string             Name of the region to use
    --help, -h                  show help
